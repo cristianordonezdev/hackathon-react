@@ -2,7 +2,7 @@ import InputElement from "./InputElement";
 import { isEmail, hasMinLength } from "../util/validation";
 import useInput from "../hooks/useInput";
 
-export default function Register() {
+export default function Register({setForm}) {
   const {
     value: emailValue, 
     handleOnBlurForm: handleOnBlurEmail, 
@@ -21,13 +21,14 @@ export default function Register() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("Hello world", form)
+    setForm('topic')
+    console.log("Hello world")
   }
  
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Register using UseState</h2>
+      <h1>Register</h1>
 
       <div className="control-row">
         <InputElement
@@ -50,12 +51,8 @@ export default function Register() {
           error={passwordIsValid && "The password is not strong"}
         ></InputElement>
 
+        <button className="button-pink">Continue</button>
       </div>
-
-      <p className="form-actions">
-        <button className="button button-flat">Reset</button>
-        <button className="button">Login</button>
-      </p>
     </form>
   );
 }
