@@ -1,8 +1,9 @@
 import InputElement from "./InputElement";
 import { isEmail, hasMinLength } from "../util/validation";
 import useInput from "../hooks/useInput";
+import { useEffect } from "react";
 
-export default function Register({setForm}) {
+export default function Register({setForm, setUser, user}) {
   const {
     value: emailValue, 
     handleOnBlurForm: handleOnBlurEmail, 
@@ -17,12 +18,23 @@ export default function Register({setForm}) {
     hasError: passwordIsValid
   } = useInput("", (value) => hasMinLength(value, 4))
 
+  useEffect(() => {
+    if (user.email) {
+      handleOnChangeEmail({target: {value: user.email}})
+    } 
+    if (user.password) {
+      handleOnChangePassword({target: {value: user.password}})
+    }
+  }, [])
 
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (emailIsValid || passwordIsValid) {
+      return
+    }
+    setUser((prev) => ({...prev, email: emailValue, password: passwordValue}))
     setForm('topic')
-    console.log("Hello world")
   }
  
 
